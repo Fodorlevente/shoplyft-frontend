@@ -23,6 +23,9 @@ import SpeechToText from 'speech-to-text';
 
 import supportedLanguages from '../supportedLanguages';
 
+import Speech from './Speech';
+import * as api from '../api';
+
 const styles = theme => ({
   root: {
     paddingTop: 65,
@@ -63,6 +66,7 @@ class SpeechToTextDemo extends Component {
   };
 
   onFinalised = text => {
+    api.sendSpeech(text);
     this.setState({
       finalisedText: [text, ...this.state.finalisedText],
       interimText: ''
@@ -204,14 +208,8 @@ class SpeechToTextDemo extends Component {
         <AppBar position="static">
           <Toolbar>
             <Typography variant="h6" className={classes.grow} color="inherit">
-              Speech To Text Demo
+              ShopLyft
             </Typography>
-            <Button
-              color="inherit"
-              href="https://github.com/magician11/speech-to-text-demo"
-            >
-              Source on GitHub
-            </Button>
           </Toolbar>
         </AppBar>
         <Grid container justify="center" className={classes.root}>
@@ -228,6 +226,7 @@ class SpeechToTextDemo extends Component {
               </Grid>
             </Grid>
             {content}
+            <Speech reply="There is an apple under the tree" />
           </Grid>
         </Grid>
       </Grid>
