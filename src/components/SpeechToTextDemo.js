@@ -25,6 +25,7 @@ import supportedLanguages from '../supportedLanguages';
 
 import Speech from './Speech';
 import * as api from '../api';
+import logo from '../img/bread.png';
 
 const styles = theme => ({
   root: {
@@ -50,7 +51,8 @@ class SpeechToTextDemo extends Component {
     interimText: '',
     finalisedText: [],
     listening: false,
-    language: 'en-US'
+    language: 'en-US',
+    reply: ''
   };
 
   onAnythingSaid = text => {
@@ -65,11 +67,13 @@ class SpeechToTextDemo extends Component {
     }
   };
 
-  onFinalised = text => {
-    api.sendSpeech(text);
+  onFinalised = async( text )  => {
+    const alma = await api.sendSpeech(text);
+    console.log(alma);
     this.setState({
       finalisedText: [text, ...this.state.finalisedText],
-      interimText: ''
+      interimText: '',
+      reply: alma,
     });
   };
 
@@ -82,7 +86,7 @@ class SpeechToTextDemo extends Component {
         this.state.language
       );
       this.listener.startListening();
-      this.setState({ listening: true });
+      this.setState({ listening: true, reply: '' });
     } catch (err) {
       console.log('yoyoy');
       console.log(err);
@@ -124,7 +128,7 @@ class SpeechToTextDemo extends Component {
       } else {
         buttonForListening = (
           <Button
-            color="primary"
+            style={{ background: '#FFB63E' }}
             onClick={() => this.startListening()}
             variant="contained"
           >
@@ -133,9 +137,9 @@ class SpeechToTextDemo extends Component {
         );
       }
       content = (
-        <Grid container spacing={8}>
+        <Grid container spacing={8} >
           <Grid item xs={12} md={7}>
-            <Paper className={this.props.classes.paper}>
+            <Paper className={this.props.classes.paper} >
               <Grid container spacing={8}>
                 <Grid item xs={12} lg={6}>
                   <Typography variant="overline" gutterBottom>
@@ -168,9 +172,9 @@ class SpeechToTextDemo extends Component {
             </Paper>
           </Grid>
           <Grid item xs={12} md={5}>
-            <Paper className={this.props.classes.paper}>
+            <Paper className={this.props.classes.paper} style={{ color: "white",  background: '#A3CEB6' }}>
               <Typography variant="overline" gutterBottom>
-                Current utterances
+              text you have spoken
               </Typography>
               <Typography variant="body1" gutterBottom>
                 {interimText}
@@ -206,27 +210,21 @@ class SpeechToTextDemo extends Component {
     return (
       <Grid container>
         <AppBar position="static">
-          <Toolbar>
-            <Typography variant="h6" className={classes.grow} color="inherit">
-              ShopLyft
+          <Toolbar style={{ background: '#FFB63E' }}>
+            <Typography variant="h6" className={classes.grow} style={{ color: 'white' }}>
+              Need bread? - ShopLyft™  
             </Typography>
+            <img src={logo} />
           </Toolbar>
         </AppBar>
         <Grid container justify="center" className={classes.root}>
           <Grid item xs={12} sm={8}>
-            <Grid container>
-              <Grid item xs={12}>
-                <Typography variant="subtitle1" gutterBottom>
-                  This is a demo for the{' '}
-                  <a href="https://www.npmjs.com/package/speech-to-text">
-                    speech-to-text module on npm
-                  </a>
-                  .
-                </Typography>
-              </Grid>
-            </Grid>
             {content}
-            <Speech reply="There is an apple under the tree" />
+            {this.state.reply !== '' ? 
+              <Speech reply={this.state.reply} />
+              :
+              null
+            }
           </Grid>
         </Grid>
       </Grid>
