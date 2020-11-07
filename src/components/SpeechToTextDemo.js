@@ -4,19 +4,10 @@ import {
   Paper,
   Button,
   Typography,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
   Grid,
   AppBar,
   Toolbar,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  FormHelperText
+  
 } from '@material-ui/core';
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 import SpeechToText from 'speech-to-text';
@@ -27,7 +18,8 @@ import Speech from './Speech';
 import * as api from '../api';
 import logo from '../img/bread.png';
 
-import { MessageList } from 'react-chat-elements';
+import ChatBox from './ChatBox';
+import { Bubble } from '@chatui/core';
 
 const styles = theme => ({
   root: {
@@ -54,8 +46,26 @@ class SpeechToTextDemo extends Component {
     finalisedText: [],
     listening: false,
     language: 'en-US',
-    reply: ''
+    reply: '',
+    data: [ {
+      position: 'left',
+      type: 'text',
+      text: 'Hi!',
+      date: new Date(),
+    }]
   };
+
+  generateMessage(msg, dir) {
+    console.log("generateMessage");
+    return  {
+        position: dir,
+        type: 'text',
+        text: msg,
+        date: new Date(),
+        avatarFlexible: true,
+        avatar: dir === 'left' ? "https://www.svgrepo.com/show/35097/avatar.svg" : 'https://www.svgrepo.com/show/43652/avatar.svg'
+    }
+  } 
 
   onAnythingSaid = text => {
     this.setState({ interimText: text });
@@ -70,13 +80,18 @@ class SpeechToTextDemo extends Component {
   };
 
   onFinalised = async( text )  => {
-    const alma = await api.sendSpeech(text);
-    console.log(alma);
+    const replyText = await api.sendSpeech(text);
     this.setState({
       finalisedText: [text, ...this.state.finalisedText],
       interimText: '',
-      reply: alma,
+      reply: replyText,
+      data: [
+        ...this.state.data, 
+        this.generateMessage(text, 'right'),
+        this.generateMessage(replyText, 'left')
+      ]
     });
+
   };
 
   startListening = () => {
@@ -100,7 +115,12 @@ class SpeechToTextDemo extends Component {
     this.setState({ listening: false });
   };
 
+
   render() {
+    console.log("Rending...");
+    console.log(this.state.finalisedText);
+    console.log(this.state.reply);
+    
     const {
       error,
       interimText,
@@ -140,71 +160,13 @@ class SpeechToTextDemo extends Component {
       }
       content = (
         <Grid container spacing={8} >
-          <Grid item xs={12} md={7}>
-            <Paper className={this.props.classes.paper} >
-              <Grid container spacing={8}>
-                <Grid item xs={12} lg={6}>
-                  <Typography variant="overline" gutterBottom>
-                    Status: {listening ? 'listening...' : 'finished listening'}
-                  </Typography>
-                  {buttonForListening}
-                </Grid>
-                <Grid item xs={12} lg={6}>
-                  <FormControl className={classes.formControl}>
-                    <InputLabel>Language</InputLabel>
-                    <Select
-                      value={language}
-                      onChange={evt =>
-                        this.setState({ language: evt.target.value })
-                      }
-                      disabled={listening}
-                    >
-                      {supportedLanguages.map(language => (
-                        <MenuItem key={language[1]} value={language[1]}>
-                          {language[0]}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                    <FormHelperText>
-                      What language are you going to speak in?
-                    </FormHelperText>
-                  </FormControl>
-                </Grid>
-              </Grid>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} md={5}>
-            <Paper className={this.props.classes.paper} style={{ color: "white",  background: '#A3CEB6' }}>
-              <Typography variant="overline" gutterBottom>
-              text you have spoken
-              </Typography>
-              <Typography variant="body1" gutterBottom>
-                {interimText}
-              </Typography>
-            </Paper>
-          </Grid>
           <Grid item xs={12}>
             <Paper className={classes.paper}>
-              <Table className={classes.table}>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Finalised Text</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {finalisedText.map((str, index) => {
-                    return (
-                      <TableRow key={index}>
-                        <TableCell component="th" scope="row">
-                          {str}
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-                </TableBody>
-              </Table>
+               <ChatBox data={this.state.data}/>
             </Paper>
+            {buttonForListening}
           </Grid>
+          
         </Grid>
       );
     }
