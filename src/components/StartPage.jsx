@@ -65,6 +65,9 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'baseline',
         marginBottom: theme.spacing(2),
     },
+    card: {
+        height: '250px'
+    },
     footer: {
         borderTop: `1px solid ${theme.palette.divider}`,
         marginTop: theme.spacing(8),
@@ -79,36 +82,23 @@ const useStyles = makeStyles((theme) => ({
 
 const tiers = [
     {
-        title: 'Free',
-        price: '0',
-        description: ['10 users included', '2 GB of storage', 'Help center access', 'Email support'],
-        buttonText: 'Sign up for free',
-        buttonVariant: 'outlined',
+        title: 'Covid-19',
+        price: '77',
+        description: [' of people passing away from complications of COVID-19 are over 75'],
     },
     {
-        title: 'Features',
-        subheader: 'Most popular',
-        price: '15',
+        title: 'Technological gap',
+        price: '87',
         description: [
-            '20 users included',
-            '10 GB of storage',
-            'Help center access',
-            'Priority email support',
+            'of elderly people never have been online.',
         ],
-        buttonText: 'Get started',
-        buttonVariant: 'contained',
     },
     {
-        title: 'Enterprise',
-        price: '30',
+        title: 'Easy to use',
+        price: null,
         description: [
-            '50 users included',
-            '30 GB of storage',
-            'Help center access',
-            'Phone & email support',
+            'Order groceries to your home with just a phone call, no internet needed',
         ],
-        buttonText: 'Contact us',
-        buttonVariant: 'outlined',
     },
 ];
 const footers = [
@@ -133,8 +123,11 @@ export default function StartPage() {
                 <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
                     ShopLyft
         </Typography>
-                <Typography variant="h5" align="center" color="textSecondary" component="p">
-                    The revolutanery AI no contact shopping assistant.
+        <Typography variant="h5" align="center" color="textSecondary" component="p">
+            The revolutionary AI no contact shopping assistant. 
+        </Typography>
+        <Typography variant="h6" align="center" color="textSecondary" component="p">
+            *This is just a web based frontend simulation of the real phone solution.
         </Typography>
             </Container>
       {/* End hero unit */ }
@@ -143,7 +136,7 @@ export default function StartPage() {
                 {tiers.map((tier) => (
                     // Enterprise card is full width at sm breakpoint
                     <Grid item key={tier.title} xs={12} sm={tier.title === 'Enterprise' ? 12 : 6} md={4}>
-                        <Card>
+                        <Card className={classes.card}>
                             <CardHeader
                                 title={tier.title}
                                 subheader={tier.subheader}
@@ -154,12 +147,16 @@ export default function StartPage() {
                             />
                             <CardContent>
                                 <div className={classes.cardPricing}>
+                                    {tier.price !== null 
+                                    ?
+                                    <div>
                                     <Typography component="h2" variant="h3" color="textPrimary">
-                                        ${tier.price}
+                                        {tier.price} %
                                     </Typography>
-                                    <Typography variant="h6" color="textSecondary">
-                                        /mo
-                    </Typography>
+                                    </div>
+                                    :
+                                        null
+                                    }
                                 </div>
                                 <ul>
                                     {tier.description.map((line) => (
@@ -170,7 +167,12 @@ export default function StartPage() {
                                 </ul>
                             </CardContent>
                             <CardActions>
-                                <Button fullWidth variant={tier.buttonVariant} color="primary">
+                                <Button 
+                                    fullWidth
+                                    variant={tier.buttonVariant}
+                                    color="primary"
+                                    onClick={()=>setPage("Assistant")}
+                                    >
                                     {tier.buttonText}
                                 </Button>
                             </CardActions>
