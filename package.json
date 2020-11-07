@@ -7,7 +7,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build"
   },
-  "homepage": "/speech-to-text-demo",
+  "homepage": ".",
   "keywords": [
     "react"
   ],
