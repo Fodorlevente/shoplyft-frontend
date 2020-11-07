@@ -12,14 +12,13 @@ import {
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 import SpeechToText from 'speech-to-text';
 
-import supportedLanguages from '../supportedLanguages';
 
 import Speech from './Speech';
 import * as api from '../api';
 import logo from '../img/bread.png';
 
 import ChatBox from './ChatBox';
-import { Bubble } from '@chatui/core';
+
 
 const styles = theme => ({
   root: {
@@ -35,7 +34,9 @@ const styles = theme => ({
   },
   paper: theme.mixins.gutters({
     paddingTop: 22,
-    paddingBottom: 22
+    paddingBottom: 22,
+    backgroundColor: 'lightgrey',
+    width: '75%'
   })
 });
 
@@ -143,18 +144,21 @@ class SpeechToTextDemo extends Component {
 
       if (listening) {
         buttonForListening = (
-          <Button color="primary" onClick={() => this.stopListening()}>
+          <Button 
+            onClick={() => this.stopListening()}
+            style={{ background: 'red', marginTop: '24px' }}
+            >
             Stop Listening
           </Button>
         );
       } else {
         buttonForListening = (
           <Button
-            style={{ background: '#FFB63E' }}
+            style={{ background: '#FFB63E', marginTop: '24px' }}
             onClick={() => this.startListening()}
             variant="contained"
           >
-            Start Listening
+            <img src="https://www.svgrepo.com/show/304491/mic.svg" alt="dsada" />
           </Button>
         );
       }
@@ -170,17 +174,9 @@ class SpeechToTextDemo extends Component {
         </Grid>
       );
     }
-
+    
     return (
       <Grid container>
-        <AppBar position="static">
-          <Toolbar style={{ background: '#FFB63E' }}>
-            <Typography variant="h6" className={classes.grow} style={{ color: 'white' }}>
-              Need bread? - ShopLyft™  
-            </Typography>
-            <img src={logo} />
-          </Toolbar>
-        </AppBar>
         <Grid container justify="center" className={classes.root}>
           <Grid item xs={12} sm={8}>
             {content}
