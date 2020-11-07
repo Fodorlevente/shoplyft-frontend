@@ -2,7 +2,7 @@ import axios from "axios";
 
 export async function sendSpeech(reply) {
     try {
-        const data = JSON.stringify({ "query": reply, "key": "5vkEg9HYcR0dIFqYrX61Cm3Q7y5OMO4d", "unit": "1604692439244" });
+        const data = JSON.stringify({ "query": reply, "key": "5vkEg9HYcR0dIFqYrX61Cm3Q7y5OMO4d", "unit": (Math.floor(Math.random() * 50) +  1)  });
 
         const config = {
             method: 'post',
