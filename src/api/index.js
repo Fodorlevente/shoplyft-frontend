@@ -1,8 +1,11 @@
 import axios from "axios";
 
+const session = (Math.floor(Math.random() * 50) +  1);
+
 export async function sendSpeech(reply) {
+    console.log(`Session: ${session}`);
     try {
-        const data = JSON.stringify({ "query": reply, "key": "5vkEg9HYcR0dIFqYrX61Cm3Q7y5OMO4d", "unit": (Math.floor(Math.random() * 50) +  1)  });
+        const data = JSON.stringify({ "query": reply, "key": "5vkEg9HYcR0dIFqYrX61Cm3Q7y5OMO4d", "unit": session  });
 
         const config = {
             method: 'post',

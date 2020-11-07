@@ -15,7 +15,6 @@ import SpeechToText from 'speech-to-text';
 
 import Speech from './Speech';
 import * as api from '../api';
-import logo from '../img/bread.png';
 
 import ChatBox from './ChatBox';
 
@@ -80,6 +79,11 @@ class SpeechToTextDemo extends Component {
     }
   };
 
+
+  init = async (text) => {
+    await api.sendSpeech(text);
+  }
+
   onFinalised = async( text )  => {
     const replyText = await api.sendSpeech(text);
     this.setState({
@@ -116,12 +120,14 @@ class SpeechToTextDemo extends Component {
     this.setState({ listening: false });
   };
 
+  
 
   render() {
     console.log("Rending...");
     console.log(this.state.finalisedText);
     console.log(this.state.reply);
-    
+    // this.init("groceries");
+
     const {
       error,
       interimText,
