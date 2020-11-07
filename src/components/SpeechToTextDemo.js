@@ -27,6 +27,8 @@ import Speech from './Speech';
 import * as api from '../api';
 import logo from '../img/bread.png';
 
+import { MessageList } from 'react-chat-elements';
+
 const styles = theme => ({
   root: {
     paddingTop: 65,
