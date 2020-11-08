@@ -9,7 +9,7 @@ export async function sendSpeech(reply) {
 
         const config = {
             method: 'post',
-            url: 'https://cors-anywhere.herokuapp.com/https://api.aimybox.com/request',
+            url: 'https://shopyfy-cors.herokuapp.com/https://api.aimybox.com/request',
             headers: {
                 'Content-Type': 'application/json'
             },
