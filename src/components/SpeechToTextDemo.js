@@ -123,10 +123,10 @@ class SpeechToTextDemo extends Component {
   
 
   render() {
-    console.log("Rending...");
+    console.log("Rendering...");
     console.log(this.state.finalisedText);
     console.log(this.state.reply);
-    // this.init("groceries");
+    this.init("groceries");
 
     const {
       error,
