@@ -56,6 +56,10 @@ class SpeechToTextDemo extends Component {
     }]
   };
 
+  componentDidMount() {
+    this.init("groceries");
+  }
+
   generateMessage(msg, dir) {
     console.log("generateMessage");
     return  {
@@ -127,7 +131,6 @@ class SpeechToTextDemo extends Component {
     console.log("Rendering...");
     console.log(this.state.finalisedText);
     console.log(this.state.reply);
-    this.init("groceries");
 
     const {
       error,
