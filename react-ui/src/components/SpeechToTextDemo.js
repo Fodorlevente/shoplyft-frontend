@@ -52,6 +52,7 @@ class SpeechToTextDemo extends Component {
       type: 'text',
       text: 'Hi!',
       date: new Date(),
+      avatar: "https://www.svgrepo.com/show/35097/avatar.svg"
     }]
   };
 
