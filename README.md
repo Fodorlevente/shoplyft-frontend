@@ -1,4 +1,4 @@
-This is the frontend repository of our submission to the Make conversational AI work challenge of JustAI for JucctionX Connected.
+This is the frontend repository of our submission to the Make conversational AI work challenge of JustAI for JunctionX Connected.
 
 You can find the companion backend repo under https://github.com/fuszti/shoplyft
 
